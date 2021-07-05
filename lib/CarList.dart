@@ -1,112 +1,114 @@
-// To parse this JSON data, do
-//
-//     final carlist = carlistFromJson(jsonString);
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+/*
 final String apiUrl =
-    "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test.php";
+    "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test_2.php";
 
-Future<List<Carlist>> fetchCarList() async {
+Future<List<dynamic>> fetchCarList() async {
   final response = await http.get(Uri.parse(apiUrl));
 
-  
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+
+    /*
     final jsonResponse = jsonDecode(response.body);
     String jsonsDataString = jsonResponse.toString();
     return json.decode(jsonsDataString);
+    */
+    //return dynamic jsonDecode(jsonDecode(response.body));
+    return json.decode(response.body)['results'];
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
   }
-  
 }
 
-Carlist carlistFromJson(String str) => Carlist.fromJson(json.decode(str));
+String _productTitle(dynamic carlist) {
+  return carlist['productTitle'];
+}
 
-String carlistToJson(Carlist data) => json.encode(data.toJson());
+String _availability(dynamic carlist) {
+  return carlist['availability'];
+}
+
+/*
+List<Carlist> carlistFromJson(String str) => List<Carlist>.from(json.decode(str).map((x) => Carlist.fromJson(x)));
+
+String carlistToJson(List<Carlist> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Carlist {
-  Carlist({
-    required this.id,
-    required this.catId,
-    required this.productTitle,
-    required this.availability,
-    required this.image,
-    required this.creationDate,
-    required this.province,
-    required this.deviceId,
-  });
+    Carlist({
+        required this.productTitle,
+        required this.availability,
+    });
 
-  String id;
-  String catId;
-  String productTitle;
-  String availability;
-  String image;
-  DateTime creationDate;
-  String province;
-  String deviceId;
+    String productTitle;
+    String availability;
 
-  factory Carlist.fromJson(Map<String, dynamic> json) => Carlist(
-        id: json["ID"],
-        catId: json["CatID"],
+    factory Carlist.fromJson(Map<String, dynamic> json) => Carlist(
         productTitle: json["ProductTitle"],
         availability: json["Availability"],
-        image: json["Image"],
-        creationDate: DateTime.parse(json["CreationDate"]),
-        province: json["province"],
-        deviceId: json["deviceID"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
-        "ID": id,
-        "CatID": catId,
+    Map<String, dynamic> toJson() => {
         "ProductTitle": productTitle,
         "Availability": availability,
-        "Image": image,
-        "CreationDate": creationDate.toIso8601String(),
-        "province": province,
-        "deviceID": deviceId,
-      };
+    };
 }
-
+*/
+*/
 class CarList extends StatelessWidget {
-  //const CarList({ Key? key }) : super(key: key);
+  final String apiUrl =
+      "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test_2.php";
+
+  Future<List<dynamic>> fetchCarList() async {
+    var response = await http.get(Uri.parse(apiUrl));
+    final jsonResponse = jsonDecode(response.body);
+    String jsonsDataString = jsonResponse.toString();
+    return jsonDecode(jsonsDataString);
+
+    //return json.decode(result.body)['results'];
+  }
+
+  String _productTitle(dynamic carlist) {
+    return carlist['productTitle'];
+  }
+
+  String _availability(dynamic carlist) {
+    return carlist['availability'];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<List<Carlist>>(
+      child: FutureBuilder<List<dynamic>>(
         future: fetchCarList(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data![0].availability);
+            print(_availability(snapshot.data[0]));
             return ListView.builder(
-              padding: EdgeInsets.all(8),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(snapshot.data![index].productTitle),
-                        subtitle: Text(snapshot.data![index].availability),
-                        trailing: Text(snapshot.data![index].id),
-                      )
-                    ],
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
+                padding: EdgeInsets.all(8),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(_availability(snapshot.data[index])),
+                          subtitle: Text(_productTitle(snapshot.data[index])),
+                        )
+                      ],
+                    ),
+                  );
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
-          return CircularProgressIndicator();
         },
       ),
     );

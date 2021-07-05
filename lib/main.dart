@@ -23,22 +23,9 @@ class _MyAppState extends State<MyApp> {
     //futureCarlist = fetchCarlist();
   }
 
-  Future<void> fecthdatafromapi() async {
-    var url =
-        "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test.php";
-    var reponse = await http.get(Uri.parse(url));
-    var productidlist = jsonDecode(reponse.body);
-    /*
-    List<ProductID> = productid[];
-    for (var u in productidlist){
-      ProductID productid = ProductID()
-    }
-    */
-  }
-
   Future<void> gettestdata() async {
     var response2 = await http.get(Uri.parse(
-        'http://180.180.216.61/final-project/all/flutter_api/api_get_data_test.php'));
+        'http://180.180.216.61/final-project/all/flutter_api/api_get_data_test_2.php'));
     print(response2.body);
   }
 

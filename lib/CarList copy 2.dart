@@ -9,14 +9,18 @@ import 'dart:async';
 final String apiUrl =
     "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test.php";
 
-Future<Carlist> fetchCarList() async {
+Future<List<Carlist>> fetchCarList() async {
   final response = await http.get(Uri.parse(apiUrl));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    final jsonResponse = jsonDecode(response.body);
-    return Carlist.fromJson(jsonResponse[0]);
+
+    
+    //final jsonResponse = jsonDecode(response.body);
+    //String jsonsDataString = jsonResponse.toString();
+    //return json.decode(jsonsDataString);
+    return json.decode(response.body)['results'];
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -78,15 +82,34 @@ class CarList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<Carlist>(
+      child: FutureBuilder<List<Carlist>>(
         future: fetchCarList(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return Center(child: Text(snapshot.data!.availability));
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
+            print((snapshot.data[0].availability));
+            return ListView.builder(
+                padding: EdgeInsets.all(8),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          leading: CircleAvatar(
+                              radius: 30,
+                              backgroundImage: NetworkImage(
+                                  snapshot.data[index]['picture']['large'])),
+                          title: Text((snapshot.data[index].availability)),
+                          subtitle: Text(snapshot.data[index].productTitle),
+                          trailing: Text(snapshot.data[index].deviceID),
+                        )
+                      ],
+                    ),
+                  );
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
-          return Center(child: CircularProgressIndicator());
         },
       ),
     );
