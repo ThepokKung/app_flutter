@@ -65,7 +65,7 @@ class Carlist {
 class CarList extends StatelessWidget {
   final String apiUrl =
       "http://180.180.216.61/final-project/all/flutter_api/api_get_data_test_2.php";
-
+  
   Future<List<dynamic>> fetchCarList() async {
     var response = await http.get(Uri.parse(apiUrl));
     final jsonResponse = jsonDecode(response.body);

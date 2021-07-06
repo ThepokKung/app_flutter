@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
-      title: 'test_fectData',
+      title: 'Kindacode.com',
       home: HomePage(),
     );
   }
@@ -43,13 +43,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Test FecthData'),
+          title: Text('Kindacode.com'),
         ),
         body: SafeArea(
             child: _loadedPhotos.length == 0
                 ? Center(
                     child: ElevatedButton(
-                      child: Text('Load Data'),
+                      child: Text('Load Photos'),
                       onPressed: _fetchData,
                     ),
                   )
