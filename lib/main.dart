@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // The list that contains information about photos
-  List _loadedPhotos = [];
+  List _loadedData = [];
 
   // The function that fetches data from the API
   Future<void> _fetchData() async {
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     final data = json.decode(response.body);
 
     setState(() {
-      _loadedPhotos = data;
+      _loadedData = data;
     });
   }
 
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
           title: Text('Test FecthData'),
         ),
         body: SafeArea(
-            child: _loadedPhotos.length == 0
+            child: _loadedData.length == 0
                 ? Center(
                     child: ElevatedButton(
                       child: Text('Load Data'),
@@ -55,12 +55,12 @@ class _HomePageState extends State<HomePage> {
                   )
                 // The ListView that displays photos
                 : ListView.builder(
-                    itemCount: _loadedPhotos.length,
+                    itemCount: _loadedData.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return ListTile(
-                        title: Text(_loadedPhotos[index]['ProductTitle']),
+                        title: Text(_loadedData[index]['ProductTitle']),
                         subtitle:
-                            Text(_loadedPhotos[index]["Availability"]),
+                            Text(_loadedData[index]["Availability"]),
                       );
                     },
                   )));
