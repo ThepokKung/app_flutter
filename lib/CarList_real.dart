@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> {
                   return ListTile(
                     title: Text(_loadedData[index]['ProductTitle']),
                     subtitle: Text(_loadedData[index]["Availability"]),
-                    //onTap: -,
                   );
                 },
               ),
