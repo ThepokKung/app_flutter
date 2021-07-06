@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   // The function that fetches data from the API
   Future<void> _fetchData() async {
     const API_URL =
-        'http://180.180.216.61/final-project/all/flutter_api/api_get_data_test_2.php';
+        'http://180.180.216.61/final-project/all/flutter_api/api_get_data_test.php';
 
     final response = await http.get(Uri.parse(API_URL));
     final data = json.decode(response.body);
@@ -54,14 +54,12 @@ class _HomePageState extends State<HomePage> {
                   onPressed: _fetchData,
                 ),
               )
-            // The ListView that displays photos
             : ListView.builder(
                 itemCount: _loadedData.length,
                 itemBuilder: (BuildContext ctx, index) {
                   return ListTile(
                     title: Text(_loadedData[index]['ProductTitle']),
                     subtitle: Text(_loadedData[index]["Availability"]),
-                    //onTap: -,
                   );
                 },
               ),
