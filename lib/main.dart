@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // for using json.decode()
+import 'widgets/widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Test FecthData'),
       ),
-      body: SafeArea(
+      body: Container(
         child: _loadedData.length == 0
             ? Center(
                 child: ElevatedButton(
@@ -57,13 +58,30 @@ class _HomePageState extends State<HomePage> {
             : ListView.builder(
                 itemCount: _loadedData.length,
                 itemBuilder: (BuildContext ctx, index) {
+                  return TestWidget(_loadedData[index]['ProductTitle'],
+                      _loadedData[index]["Availability"], 100, Colors.black);
+                },
+              ),
+      ),
+      /*SafeArea(
+        child: _loadedData.length == 0
+            ? Center(
+                child: ElevatedButton(
+                  child: Text('Load Data'),
+                  onPressed: _fetchData,
+                ),
+              )
+            : 
+            ListView.builder(
+                itemCount: _loadedData.length,
+                itemBuilder: (BuildContext ctx, index) {
                   return ListTile(
                     title: Text(_loadedData[index]['ProductTitle']),
                     subtitle: Text(_loadedData[index]["Availability"]),
                   );
                 },
               ),
-      ),
+              */
     );
   }
 }
