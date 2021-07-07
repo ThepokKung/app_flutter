@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_http/screens/test.dart';
 
 class TestWidget extends StatelessWidget {
   String textinfo;
@@ -12,12 +13,14 @@ class TestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (value == check_color) {
-      color = Colors.pink;
+      color = Colors.grey;
+      value = "ไม่มีคนใช้งาน";
     } else {
       color = Colors.green;
+      value = "มีคนใช้งาน";
     }
     return Container(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(10.0),
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(15)),
       height: size,
@@ -30,6 +33,7 @@ class TestWidget extends StatelessWidget {
           value,
           style: TextStyle(fontSize: 25),
         ),
+        //onTap: Navigator(screens/test.dart),
       ),
     );
   }
