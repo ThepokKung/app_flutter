@@ -33,7 +33,6 @@ class TestWidget extends StatelessWidget {
           value,
           style: TextStyle(fontSize: 25),
         ),
-        //onTap: Navigator(screens/test.dart),
       ),
     );
   }

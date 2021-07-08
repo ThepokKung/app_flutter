@@ -63,25 +63,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
       ),
-      /*SafeArea(
-        child: _loadedData.length == 0
-            ? Center(
-                child: ElevatedButton(
-                  child: Text('Load Data'),
-                  onPressed: _fetchData,
-                ),
-              )
-            : 
-            ListView.builder(
-                itemCount: _loadedData.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return ListTile(
-                    title: Text(_loadedData[index]['ProductTitle']),
-                    subtitle: Text(_loadedData[index]["Availability"]),
-                  );
-                },
-              ),
-              */
     );
   }
 }
