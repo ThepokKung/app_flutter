@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'NT Node Sensor'),
     );
   }
 }
@@ -35,38 +35,11 @@ class _MyHomePageState extends State<MyHomePage> {
   List _loadedData = [];
   List<Series> series = [];
   bool _loading = true;
-  StreamController<List<Series>> controller =
-      new StreamController<List<Series>>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loading = true;
-  }
-
-  Future<void> _fetchData() async {
-    var apiUrl =
-        "http://180.180.216.61/final-project/all/flutter_api/test_api.php";
-    var response = await http.get(Uri.parse(apiUrl));
-    var jsonData = jsonDecode(response.body);
-
-    // access to each element in results
-    jsonData['results'].forEach((result) {
-      // result['series'] is List
-      var seriesList =
-          List<Series>.from(result['series'].map((x) => Series.fromJson(x)));
-      series.addAll(seriesList);
-    });
-
-    controller.add(_loadedData = series);
-    _loading = false;
-    /*
-    setState(() {
-      _loading = false;
-      _loadedData = series;
-    });
-    */
   }
 
   Stream<List<dynamic>> productsStream() async* {
@@ -94,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(/*_loading ? 'Loading...' : */'NT Node Sensor'),
+        title: Text(/*_loading ? 'Loading...' : */ 'NT Node Sensor'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -102,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           stream: productsStream(),
           builder: (context, snapshot) {
             print('render - Counter Widget');
+
             return Center(
               child: _loading == true
                   ? Center(
