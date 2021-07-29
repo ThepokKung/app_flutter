@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: MyHomePage(title: 'NT Node Sensor'),
     );
   }
@@ -121,67 +119,84 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(/*_loading ? 'Loading...' : */ 'NT Node Sensor'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StreamBuilder(
-          stream: aloneValueStream(),
-          builder: (context, snapshot1) {
-            print('render - Counter Widget');
-            List<FlSpot> graph_value1 = yvalue1.asMap().entries.map((e) {
-              return FlSpot(e.key.toDouble(), e.value);
-            }).toList();
-
-            List<FlSpot> graph_value2 = yvalue2.asMap().entries.map((e) {
-              return FlSpot(e.key.toDouble(), e.value);
-            }).toList();
-
-            List<FlSpot> graph_value3 = yvalue3.asMap().entries.map((e) {
-              return FlSpot(e.key.toDouble(), e.value);
-            }).toList();
-            return Center(
-              child: _loading == true
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TestWidget(
-                            "อุณหภูมิ",
-                            _loadedData[0].values[0][2].toString(),
-                            150,
-                            Colors.red),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TestWidget(
-                            "ความชื้น",
-                            _loadedData[0].values[0][3].toString(),
-                            150,
-                            Colors.green),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TestWidget(
-                            "PM2.5",
-                            _loadedData[0].values[0][1].toString(),
-                            150,
-                            Colors.purple),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Graph_Widget(value1, value1color, value2, value2color, value3, value3color, bgcolor);
-                      ],    
-                    ),
-            );
-          },
+        appBar: AppBar(
+          title: Text(/*_loading ? 'Loading...' : */ 'NT Node Sensor'),
         ),
-      ),
-    );
+        body: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StreamBuilder(
+                  stream: aloneValueStream(),
+                  builder: (context, snapshot1) {
+                    print('render - Counter Widget');
+                    List<FlSpot> graph_value1 =
+                        yvalue1.asMap().entries.map((e) {
+                      return FlSpot(e.key.toDouble(), e.value);
+                    }).toList();
+
+                    List<FlSpot> graph_value2 =
+                        yvalue2.asMap().entries.map((e) {
+                      return FlSpot(e.key.toDouble(), e.value);
+                    }).toList();
+
+                    List<FlSpot> graph_value3 =
+                        yvalue3.asMap().entries.map((e) {
+                      return FlSpot(e.key.toDouble(), e.value);
+                    }).toList();
+                    return Center(
+                      child: _loading == true
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Column(
+                              children: [
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TestWidget(
+                                    "อุณหภูมิ",
+                                    _loadedData[0].values[0][2].toString(),
+                                    150,
+                                    Colors.orange.shade700),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TestWidget(
+                                    "ความชื้น",
+                                    _loadedData[0].values[0][3].toString(),
+                                    150,
+                                    Colors.blue.shade700),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TestWidget(
+                                    "PM2.5",
+                                    _loadedData[0].values[0][1].toString(),
+                                    150,
+                                    Colors.brown),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Graph_Widget(
+                                    graph_value1,
+                                    Colors.orange.shade700,
+                                    graph_value2,
+                                    Colors.blue.shade700,
+                                    graph_value3,
+                                    Colors.brown,
+                                    Colors.grey)
+                              ],
+                            ),
+                    );
+                  },
+                ),
+              )),
+            ],
+          ),
+        ));
   }
 }
